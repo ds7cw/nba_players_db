@@ -1,7 +1,7 @@
-from typing import Optional
+from typing import Union
 
 
-def process_data(player_data: str):
+def process_data(player_data: str) -> Union[list, str]:
 
     idx = [i for i in range(len(player_data)) if player_data[i].isnumeric()][0]
     first_name, last_name = player_data[:idx].split()
@@ -48,14 +48,14 @@ def process_data(player_data: str):
 
 
 if __name__ == '__main__':
-    my_player = "Kareem Abdul-Jabbar*19701989C7-2225April 16, 1947UCLA"
-    [print(field) for field in process_data(my_player)]
-    print(process_data(my_player))
+    p1 = "Kareem Abdul-Jabbar*19701989C7-2225April 16, 1947UCLA"
+    [print(field) for field in process_data(p1)]
+    print(process_data(p1))
 
     # Test with long college name
     p2 = "Joe Hamilton19711976G-F5-10160July 5, 1948Southwestern Christian College, University of North Texas"
     [print(field) for field in process_data(p2)]
 
-    # Special case where the from_year has 5 digits
+    # Test a 3rd player
     p3 = "Gerry Calabrese19511952G6-1175February 4, 1925St. John's"
     print(process_data(p3))
