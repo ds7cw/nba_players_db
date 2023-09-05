@@ -2,16 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 
 
-def extract_table_from_page(page_url: str) -> list:
+def extract_table_from_page(page_url: str):
 
     r = requests.get(page_url)
     soup_result = BeautifulSoup(r.text, features="html.parser")
-    table_container = soup_result.find("div", class_ = "table_container").text
-    split_table = table_container.split("\n")
+    table_container = soup_result.find("tbody").find_all("tr")
 
-    for idx, row in enumerate(split_table):
-        if row == "Colleges":
-            return split_table[idx + 3:]
+    return table_container
 
 
 if __name__ == '__main__':

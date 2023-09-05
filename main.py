@@ -1,6 +1,7 @@
 from web_scraping_script import extract_table_from_page
 import db_controller
 from process_raw_data import process_data
+import time
 
 
 db_connection = db_controller.connect_to_db("nba_players_db.db")
@@ -24,22 +25,30 @@ db_controller.commit_to_db(db_connection)
 # db_controller.insert_values(db_cursor, players_bio_table_name, player_data)
 # db_controller.commit_to_db(db_connection)
 
-my_url = "https://www.basketball-reference.com/players/a/"
-table = extract_table_from_page(my_url)
+letters = "abcdefghijklmnopqrstuvwxyz"
 
-for row in table:
-    if not row:
-        break
+for character in letters:
 
-    player_data = process_data(row)
+    my_url = f"https://www.basketball-reference.com/players/{character}/"
+    table = extract_table_from_page(my_url)
 
-    if len(player_data) != 16:
-        db_controller.bad_data(player_data)
-        continue
+    for row in table:
 
-    print(player_data)
+        try:
+            player_data = process_data(str(row))
 
-    db_controller.insert_values(db_cursor, players_bio_table_name, player_data)
+            # if len(player_data) != 16:
+            #     db_controller.bad_data(row)
+            #     continue
+        except:
+            # db_controller.bad_data(row)
+            continue
+
+        print(player_data)
+
+        db_controller.insert_values(db_cursor, players_bio_table_name, player_data)
+
+    time.sleep(15)
 
 db_controller.commit_to_db(db_connection)
 db_controller.close_connection_to_db(db_connection)
