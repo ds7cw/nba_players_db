@@ -61,7 +61,7 @@ def re_colleges(pattern: str, player_data: str):
 
 def process_data(player_data: str) -> list:
     player_id = re_standard_str(r'csv=\"(\w+)\"', player_data)
-    first_name, last_name, hall_of_fame = re_player_names_hof(r'html\">([a-zA-Z\s\-\.\'ÁāáäÖöòóôêèéüúūïıíİŠšşșČĆčçćņðŽž]+)<\/a>', player_data)
+    first_name, last_name, hall_of_fame = re_player_names_hof(r'html\">([a-zA-Z\s\-\.\'ÁāãáäáÓÖöòóôēêèéëüúūïıíİýŞŠšşșßČĆčçćņńğģřðŽž]+)<\/a>', player_data)
     # re_player_names_hof_pattern_wip = , r'html\">(.+)<\/a>\*?<\/th><td class'
     from_year = re_standard_int(r'year_min\">([0-9]+)<\/td', player_data)
     to_year = re_standard_int(r'year_max\">([0-9]+)<\/td', player_data)
